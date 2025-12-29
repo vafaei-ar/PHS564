@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phs564_ci"
+version = "0.1.0"
+description = "Causal Inference utilities for PHS564"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "statsmodels",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "networkx",
+    "graphviz",
+    "causalml",
+    "linearmodels"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
