@@ -100,7 +100,7 @@ python data/download_data.py
 **Do not commit any raw data** under `data/raw/` to GitHub.
 
 ### Processed cohort extracts (required for L08–L11)
-For teaching and homework equity, L08–L11 expect **instructor‑provided processed extracts** under `data/processed/`:
+Lectures L08–L11 expect **analysis-ready cohort extracts** under `data/processed/`:
 
 - `cohort_L08_ps_ipw.parquet` (or `.csv`)
 - `cohort_L09_gformula.parquet` (or `.csv`)
@@ -108,16 +108,15 @@ For teaching and homework equity, L08–L11 expect **instructor‑provided proce
 - `cohort_L11_msm_longitudinal.parquet` (or `.csv`)
 - (optional) `cohort_L12_capstone.parquet` (or `.csv`)
 
-If these are missing, download them from GitHub Releases:
+If these are missing, build them from raw MIMIC-IV Demo:
 
 ```bash
-python data/download_data.py --lecture L08
-python data/download_data.py --lecture L09
-python data/download_data.py --lecture L10
-python data/download_data.py --lecture L11
+python data/build_processed_extracts_demo.py --exposure-mode admission_type
+# optional alternative exposure definition:
+# python data/build_processed_extracts_demo.py --exposure-mode vitals --hr-threshold 100
 ```
 
-In Colab, the applied lecture notebooks include a “Download the processed cohort extract” cell you can run once.
+In Colab, the applied lecture notebooks include a “Build the processed cohort extract” cell you can run once.
 
 ---
 
