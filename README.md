@@ -1,43 +1,93 @@
-# PHS564: Causal Inference Methods in Epidemiologic Research
+# PHS564 — Causal Inference (Course Repo)
 
-Welcome to the official repository for **PHS564**. This course focuses on modern causal inference methods, specifically tailored for researchers in epidemiology and biostatistics.
+This repository contains **student** and **instructor** Jupyter notebooks for all 12 lectures.
 
-## 🚀 Getting Started
-
-### 1. Running in Google Colab (Recommended)
-Each lecture folder contains a "Student" notebook. You can open these directly in Google Colab by clicking the badges in the [Course Index](#-course-index).
-
-### 2. Local Setup
-If you prefer to run the materials locally:
-```bash
-git clone https://github.com/<your-org>/PHS564.git
-cd PHS564
-pip install -e .
-```
-
-## 📂 Repository Structure
-
-- `data/`: Contains datasets used in the course (NHEFS, synthetic).
-- `lectures/`: Weekly lecture modules, organized by topic. Each contains notebooks, slides, and guides.
-- `assignments/`: Weekly homework prompts and submission instructions.
-- `src/phs564_ci/`: A lightweight Python package containing causal inference helper functions.
-
-## 🗓 Course Index
-
-| Session | Topic | Notebook (Student) |
-| :--- | :--- | :--- |
-| L01 | 01 Counterfactuals | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L01_Counterfactuals/L01_Counterfactuals_student.ipynb) |
-| L02 | 02 Ideal RCTs | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L02_Ideal_RCTs/L02_Ideal_RCTs_student.ipynb) |
-| L03 | 03 Observational Assumptions | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L03_Observational_Assumptions/L03_Observational_Assumptions_student.ipynb) |
-| L04 | 04 Effect Modification | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L04_Effect_Modification/L04_Effect_Modification_student.ipynb) |
-| L05 | 05 DAGs Colliders | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L05_DAGs_Colliders/L05_DAGs_Colliders_student.ipynb) |
-| L06 | 06 Confounding | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L06_Confounding/L06_Confounding_student.ipynb) |
-| L07 | 07 Selection Bias | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L07_Selection_Bias/L07_Selection_Bias_student.ipynb) |
-| L08 | 08 Estimators Models | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L08_Estimators_Models/L08_Estimators_Models_student.ipynb) |
-| L09 | 09 GFormula | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L09_GFormula/L09_GFormula_student.ipynb) |
-| L10 | 10 IV | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L10_IV/L10_IV_student.ipynb) |
-| L11 | 11 IPW | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L11_IPW/L11_IPW_student.ipynb) |
-| L12 | 12 Capstone | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<ORG>/PHS564/blob/main/lectures/L12_Capstone/L12_Capstone_student.ipynb) |
+Design principle: **fill‑in‑the‑blank**.
+- Students edit *only* model specifications and a few short analysis lines.
+- The rest of the pipeline is explicit, procedural, and readable.
 
 ---
-*Created for the PHS564 Course Build.*
+
+## Quickstart (local)
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Open notebooks with JupyterLab / VSCode.
+
+---
+
+## Quickstart (Google Colab)
+
+Recommended workflow:
+1) Clone the repo inside Colab:
+```bash
+!git clone <YOUR_GITHUB_REPO_URL>
+%cd <REPO_FOLDER_NAME>
+!pip -q install -r requirements.txt
+```
+2) Open a notebook under `lectures/Lxx_*/student/` and run top‑to‑bottom.
+
+> If you open a notebook directly from GitHub (without cloning), relative paths will break.
+
+---
+
+## Lecture notebooks
+
+Each lecture has:
+- `student/` — student notebook
+- `instructor/` — instructor solution notebook
+
+Lectures:
+- L01 Counterfactuals and causal effects
+- L02 Ideal randomized trials
+- L03 Observational studies: identification assumptions
+- L04 Effect modification
+- L05 DAGs and collider bias
+- L06 Confounding and adjustment strategies
+- L07 Selection bias and censoring weights
+- L08 IPW pipeline (MIMIC-IV Demo extract)
+- L09 Standardization / g-formula (MIMIC-IV Demo extract)
+- L10 Causal survival analysis (MIMIC-IV Demo extract)
+- L11 MSMs for time‑varying confounding (MIMIC-IV Demo extract)
+- L12 Target trial emulation workshop (capstone)
+
+---
+
+## Data policy
+
+### Raw MIMIC-IV Demo
+You may download MIMIC-IV Demo (if the instructor asks you to) into `data/raw/`:
+```bash
+python data/download_data.py
+```
+**Do not commit any raw data** under `data/raw/` to GitHub.
+
+### Processed cohort extracts (required for L08–L11)
+For teaching and homework equity, L08–L11 expect **instructor‑provided processed extracts** under `data/processed/`:
+
+- `cohort_L08_ps_ipw.parquet` (or `.csv`)
+- `cohort_L09_gformula.parquet` (or `.csv`)
+- `cohort_L10_survival.parquet` (or `.csv`)
+- `cohort_L11_msm_longitudinal.parquet` (or `.csv`)
+- (optional) `cohort_L12_capstone.parquet` (or `.csv`)
+
+If these are missing, the notebooks will raise a `FileNotFoundError` with instructions.
+
+---
+
+## Repository structure (high level)
+
+```
+data/
+  raw/            # optional, do not commit
+  processed/      # instructor-provided cohort extracts (do not commit unless allowed)
+lectures/
+  L01_.../
+    student/
+    instructor/
+  ...
+```
