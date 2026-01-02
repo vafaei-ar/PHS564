@@ -36,8 +36,6 @@ Open notebooks with JupyterLab / VSCode.
 ```
 2) Open a notebook under `lectures/Lxx_*/student/` and run top‑to‑bottom.
 
-> **Note:** Replace `<YOUR_GITHUB_USERNAME_OR_ORG>` in the Colab links below with your actual GitHub username or organization name.
-
 ---
 
 ## Lecture notebooks (with Colab links)
@@ -48,20 +46,18 @@ Each lecture has:
 
 | Lecture | Topic | Student Notebook (Colab) |
 | :--- | :--- | :--- |
-| L01 | Counterfactuals and causal effects | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L01_counterfactuals_definition/student/L01_counterfactuals_definition_student.ipynb) |
-| L02 | Ideal randomized trials | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L02_ideal_rct/student/L02_ideal_rct_student.ipynb) |
-| L03 | Observational studies: identification assumptions | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L03_observational_assumptions/student/L03_observational_assumptions_student.ipynb) |
-| L04 | Effect modification | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L04_effect_modification/student/L04_effect_modification_student.ipynb) |
-| L05 | DAGs and collider bias | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L05_dags_dseparation/student/L05_dags_dseparation_student.ipynb) |
-| L06 | Confounding and adjustment strategies | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L06_confounding/student/L06_confounding_student.ipynb) |
-| L07 | Selection bias and censoring weights | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L07_selection_bias/student/L07_selection_bias_student.ipynb) |
-| L08 | IPW pipeline (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L08_ipw_propensity/student/L08_ipw_propensity_student.ipynb) |
-| L09 | Standardization / g-formula (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L09_gformula_standardization/student/L09_gformula_standardization_student.ipynb) |
-| L10 | Causal survival analysis (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L10_causal_survival/student/L10_causal_survival_student.ipynb) |
-| L11 | MSMs for time‑varying confounding (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L11_msm_time_varying/student/L11_msm_time_varying_student.ipynb) |
-| L12 | Target trial emulation workshop (capstone) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<YOUR_GITHUB_USERNAME_OR_ORG>/PHS564/blob/main/lectures/L12_target_trial_workshop/student/L12_target_trial_workshop_student.ipynb) |
-
-> **Note:** Replace `<YOUR_GITHUB_USERNAME_OR_ORG>` in the URLs above with your actual GitHub username or organization name.
+| L01 | Counterfactuals and causal effects | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L01_counterfactuals_definition/student/L01_counterfactuals_definition_student.ipynb) |
+| L02 | Ideal randomized trials | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L02_ideal_rct/student/L02_ideal_rct_student.ipynb) |
+| L03 | Observational studies: identification assumptions | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L03_observational_assumptions/student/L03_observational_assumptions_student.ipynb) |
+| L04 | Effect modification | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L04_effect_modification/student/L04_effect_modification_student.ipynb) |
+| L05 | DAGs and collider bias | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L05_dags_dseparation/student/L05_dags_dseparation_student.ipynb) |
+| L06 | Confounding and adjustment strategies | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L06_confounding/student/L06_confounding_student.ipynb) |
+| L07 | Selection bias and censoring weights | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L07_selection_bias/student/L07_selection_bias_student.ipynb) |
+| L08 | IPW pipeline (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L08_ipw_propensity/student/L08_ipw_propensity_student.ipynb) |
+| L09 | Standardization / g-formula (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L09_gformula_standardization/student/L09_gformula_standardization_student.ipynb) |
+| L10 | Causal survival analysis (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L10_causal_survival/student/L10_causal_survival_student.ipynb) |
+| L11 | MSMs for time‑varying confounding (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L11_msm_time_varying/student/L11_msm_time_varying_student.ipynb) |
+| L12 | Target trial emulation workshop (capstone) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L12_target_trial_workshop/student/L12_target_trial_workshop_student.ipynb) |
 
 ---
 
