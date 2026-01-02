@@ -8,6 +8,9 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
+# Instructor-only materials (must NOT be pushed)
+/lectures/*/instructor/
+
 # Course data policy
 /data/raw/*
 !/data/raw/.gitkeep
