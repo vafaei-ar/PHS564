@@ -111,6 +111,39 @@ def download_with_python(version: str, out_dir: Path, manifest: Sequence[FileSpe
     print(f"Downloaded manifest ({len(manifest)} files) into: {out_dir}")
 
 
+def download_mimic_demo(
+    out_dir: str | Path = "data/raw",
+    version: str = "2.2",
+    method: str = "python"
+) -> None:
+    """Download MIMIC-IV Demo data (Colab-friendly function).
+    
+    This function can be called directly from notebooks in Google Colab.
+    It uses pure Python (no wget dependency) for maximum compatibility.
+    
+    Args:
+        out_dir: Output directory (default: "data/raw")
+        version: MIMIC-IV Demo version (default: "2.2")
+        method: Download method, "python" or "wget" (default: "python")
+    
+    Example (in a notebook):
+        from pathlib import Path
+        import sys
+        sys.path.insert(0, str(Path.cwd().parent.parent))
+        from data.download_data import download_mimic_demo
+        
+        download_mimic_demo()  # Downloads to data/raw/
+    """
+    out_path = Path(out_dir).resolve()
+    
+    if method == "wget":
+        download_with_wget(version, out_path)
+    else:
+        download_with_python(version, out_path, COURSE_MANIFEST)
+    
+    print(f"\n✓ MIMIC-IV Demo v{version} downloaded to: {out_path}")
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--method", choices=["wget", "python"], default="wget")
