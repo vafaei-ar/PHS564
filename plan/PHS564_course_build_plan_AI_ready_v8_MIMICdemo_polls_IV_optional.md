@@ -6,7 +6,7 @@
 **Primary computing track:** Python (Colab). R/SAS allowed for deliverables, but templates/examples will be in Python.  
 **Prerequisites (assumed):** graduate-level epidemiology/biostatistics; comfort with regression (linear/logistic); basic probability; ability to read scientific papers. Coding can be beginner–intermediate, but students must be able to run and modify notebooks.
 **Pre-course setup (recommended):** complete the short “Python + Jupyter warm-up” notebook (provided) and ensure access to GitHub + Google Colab.
-**Primary dataset for teaching:** NHEFS smoking cessation example (fast onboarding, no IRB/DUA delays).  
+**Primary dataset for teaching:** **MIMIC-IV Demo** (public) + course-provided **analysis-ready extracts** derived from the Demo schema (no credentialing required).
 **Primary dataset for team projects:** MIMIC-IV (credentialed access via PhysioNet).  
 **Core textbook:** Hernán MA, Robins JM. *Causal Inference: What If* (free online + code/data). https://miguelhernan.org/whatifbook
 
@@ -32,16 +32,23 @@
 - **In class:** 20–30 min core theory + 30–40 min worked example + 10–20 min active exercise.
 - **After class:** one small coding task (team) + short interpretation write-up (≤ 1 page).
 
-### B. Suggested grading (adjust to your program norms)
-- Participation / concept checks: 10–15%
-- Homeworks (coding + short answers): 40–50%
-- Team project (MIMIC): 35–45%
-- Reproducibility & code quality rubric: built into HW + project
+### B. Suggested grading (align with your syllabus template)
+- **In-class exit polls (end-of-class concept checks): 10%**
+  - low-stakes; mostly completion + 1–2 knowledge checks
+- **Homework assignments + project milestones (team-based): 65%**
+  - short write-up + notebook outputs + required diagnostics figures
+- **Final exam (individual, closed-collaboration): 25%**
+- **Peer evaluation:** used as a multiplier/flag for team accountability (optional but recommended)
 
 ### C. Team policy (2-person teams)
-- Stable teams for most of semester (reduces coordination overhead).
-- Each submission lists: (i) division of work, (ii) what was learned, (iii) one open question.
-- Encourage “pair programming” at least once per homework.
+- Teams are formed in **Week 1** to intentionally mix:
+  - one member with stronger **clinical context**
+  - one member with stronger **programming comfort**
+- Stable teams reduce coordination overhead, but **both members must touch the code**.
+  - Each homework/project submission must include a **GitHub contributions** link (commits/PRs).
+  - A short “contributions” section states what each partner did and what each learned.
+- Encourage one “pair-programming” session per assignment (screen-share) to prevent a permanent “coder vs writer” split.
+
 
 ---
 
@@ -58,7 +65,7 @@
 ### B. Colab + GitHub workflow
 - One **course GitHub repo** with:
   - `/notebooks/` (Colab notebooks; each lecture has a starter + solution)
-  - `/data/` (NOT for patient-level data; store synthetic/NHEFS only)
+  - `/data/` (store **small, analysis-ready MIMIC-IV Demo extracts** and toy simulation data only; **never** store row-level full MIMIC-IV data)
   - `/src/` (shared helper functions: IP weights, standardization, bootstrap, plots)
   - `/assignments/` (prompts + rubric)
   - `/project/` (templates: proposal, analysis plan, report)
@@ -97,39 +104,40 @@ This file is written to be **machine-actionable**: you can give it to (i) a codi
 **Quality gates (run before releasing to students)**
 - Every notebook runs top-to-bottom in Colab **without manual edits**.
 - Plots are readable and labeled; random seeds set for reproducibility.
-- No row-level MIMIC data committed; only synthetic/NHEFS in repo.
+- No row-level **full** MIMIC-IV data committed or uploaded; Demo-based extracts may be stored if small, otherwise downloaded via script.
 - Solution notebooks stored in a private location (private repo/branch or instructor-only folder ignored by git).
 
 ---
-## 3) MIMIC-IV access plan (so projects are feasible)
+## 3) Data plan: MIMIC-IV Demo for everything; full MIMIC-IV optional for the final project
 
-### A. Access steps (students start early)
-1. Create a PhysioNet account.
-2. Complete required human-data training (CITI “Data or Specimens Only Research” is commonly required on PhysioNet).  
-   - See PhysioNet “CITI Course Instructions”: https://physionet.org/about/citi-course/  
-   - See “Required training for MIMIC-IV”: https://physionet.org/content/mimiciv/view-required-training/3.1/
-3. Sign the data use agreement and request access to MIMIC-IV on PhysioNet.
-4. Use the official hosting options (often via Google Cloud).  
-   - MIMIC-IV landing page: https://physionet.org/content/mimiciv/
+### 3.1 Core teaching dataset (required for everyone)
+- **All** in-class examples, notebooks, and homework are built on **MIMIC-IV Demo** (publicly available) plus **course-provided analysis-ready extracts** (CSV/Parquet) derived from Demo.
+- Goal: **zero credentialing bottlenecks**. Every student should be able to run Week 1 notebooks on Day 1.
+- The repository will include:
+  - `data/README.md` documenting each extract (cohort definition, variables, units, missingness, outcome window).
+  - `data/download_data.py` that downloads extracts into `data/raw/` (from GitHub Releases or a Penn State-hosted link).
+  - `sql/` scripts showing how each extract was produced from the Demo schema (transparency), but **SQL execution is optional** for homework.
 
+### 3.2 Optional: full MIMIC-IV for the final project (student choice)
+- Teams may choose to run their capstone target-trial emulation on **full MIMIC-IV** (credentialed PhysioNet access).
+- **Deadline:** teams intending to use full MIMIC-IV should complete required credentialing by **Week 4**.
+- **Plan B (no penalty):** if a team is not credentialed by Week 4, they complete the final project using **MIMIC-IV Demo** (same protocol + pipeline, smaller N).
+- **Governance:** never commit or upload row-level **full** MIMIC-IV data to GitHub/Colab/Canvas. Share **code + SQL + aggregate outputs only**.
 
-**Contingency plan (important):** MIMIC credentialing can take time. All homework and teaching notebooks will run on course-provided synthetic/de-identified datasets. If a team does not have MIMIC access by **Week 6**, they may (i) continue on the provided datasets for the final project, or (ii) switch to an alternative public dataset approved by the instructor.
+### 3.3 What “MIMIC-IV Demo” means operationally
+To keep the causal focus (not data plumbing), we treat most analyses as **baseline/early exposure** problems:
+- time zero = ICU admission (or first ICU day)
+- exposure window = first 6–24h
+- follow-up window = 28-day mortality, ICU LOS, ventilation duration, etc.
+- confounders = measured before the exposure window
 
-### B. A safe “early start” option: MIMIC-IV demo
-If you want students to practice cohort extraction before full credentialing, consider using the **MIMIC-IV demo** dataset (same schema, limited content) for workshops and early assignments:
-- PhysioNet demo page: https://physionet.org/content/mimic-iv-demo/
-- AWS Open Data Registry entry: https://registry.opendata.aws/mimic-iv-demo/
+Each lecture’s notebook uses a single extract, e.g.:
+- `cohort_L01_antibiotics_28d.parquet`
+- `cohort_L08_ps_ipw.parquet`
+- `cohort_L10_survival.parquet`
+- `cohort_L11_msm_longitudinal.parquet`
 
-### C. Reproducible cohort building (recommended)
-Use the community **MIMIC Code Repository** for vetted concept definitions (e.g., ventilation, sepsis, comorbidities) and SQL patterns:
-- MIT-LCP/mimic-code (main repo): https://github.com/MIT-LCP/mimic-code
-- MIMIC-IV concepts folder: https://github.com/MIT-LCP/mimic-code/tree/main/mimic-iv
-
-### D. Practical teaching suggestion
-- **Do not wait for MIMIC** to start causal methods. Use NHEFS or synthetic data first.
-- Make **MIMIC** the focus of the final project once access is granted.
-
----
+These are designed to be small, runnable on Colab, and reproducible from the Demo schema.
 
 ## 4) A “target trial” template (use in every homework + project)
 Each team must write (1–2 paragraphs) answering:
@@ -580,441 +588,226 @@ Deliverable: one notebook + ≤1 page PDF/markdown summary.
 
 ---
 
-## Lecture 8 — Why model? (estimators, models, bias-variance tradeoff)
-### Assets to generate (slides + notebook + homework)
-- Slides: `slides/L08_estimators_models.md` (outline + speaker notes) → (optional) export to PPTX/Google Slides
-- Notebook (student): `notebooks/L08_estimators_models_student.ipynb`
-- Notebook (solution, instructor): `instructor_solutions/L08_estimators_models_solution.ipynb`
-- Homework prompt: `assignments/HW08_estimators_models.md`
-- Homework solutions: `instructor_solutions/HW08_estimators_models_solution.md`
-- Optional concept check: `quizzes/Q08_estimators_models_concept_check.md`
+---
 
+## Lecture 8 — IP weighting for confounding (propensity scores) + diagnostics (MIMIC-IV Demo)
+### Assets to generate (slides + notebook + homework + poll)
+- Slides: `slides/L08_ipw_propensity.md` → (optional) export to PPTX/Google Slides
+- Notebook (student): `notebooks/L08_ipw_propensity_student.ipynb` (**fill-in-the-blanks; pipeline provided**)
+- Notebook (solution, instructor): `instructor_solutions/L08_ipw_propensity_solution.ipynb`
+- Homework prompt: `assignments/HW08_ipw_propensity.md`
+- Homework solutions: `instructor_solutions/HW08_ipw_propensity_solution.md`
+- Exit poll: `polls/P08_exit_poll.md`
 
 ### Learning goals
-- Define estimand, estimator, estimate.
-- Understand why we need models for high-dimensional covariates.
-- Introduce outcome regression (linear/logistic) and interpretation of parameters.
+- Explain IP weighting as **creating a pseudo-population** where treatment is independent of measured confounders.
+- Fit a propensity model \(e(L)=Pr(A=1|L)\) and compute **unstabilized** and **stabilized** weights.
+- Diagnose failure modes: **lack of overlap/positivity**, extreme weights, imbalance after weighting.
+- Produce a defensible causal estimate + a minimal diagnostics panel.
 
 ### Required reading
-- Hernán & Robins, Chapter 11. https://miguelhernan.org/whatifbook
+- Hernán & Robins, *What If*, Chapter 12 (IPW basics + intuition): https://miguelhernan.org/whatifbook
 
-### In-class activity
-- Walk through a simple logistic regression and ask: “Which estimand does this directly estimate?”
+### In-class activity (10–12 min)
+- Hand-calculation on a 2×2 stratified example: compute weights and interpret the pseudo-population.
 
-### Colab notebook idea
-**Notebook 08:** “Outcome regression for causal inference”
-- Use NHEFS-like variables (or a simplified dataset):
-  - Fit outcome model E[Y|A,L]
-  - Predict Y under A=1 and A=0 for everyone
-  - Average predictions → standardized mean/risk
+### Colab notebook plan (MIMIC-IV Demo)
+**Notebook 08:** “IPW pipeline (complete) — students only change the model”
+- Data: `cohort_L08_ps_ipw.parquet` (baseline/early exposure cohort; binary A; binary or continuous Y)
+- Provided (do not ask students to write):
+  - data loading + basic EDA
+  - helper functions: `compute_ipw()`, `plot_ps_overlap()`, `love_plot_smd()`, `plot_weights()`
+- Student tasks:
+  1. Specify the **propensity model formula** (and justify covariates as pre-treatment).
+  2. Compute stabilized weights.
+  3. Run diagnostics (overlap, weights, balance).
+  4. Estimate marginal causal effect (weighted mean/risk difference; optionally weighted GLM).
 
-### Homework
-1. Explain why “E[Y|A=1] − E[Y|A=0]” is generally not causal in observational data.
-2. Coding:
-   - Fit two outcome models:
-     (i) correct specification, (ii) misspecified.
-   - Compare causal estimates under both; discuss bias-variance tradeoff.
-3. Optional: use cross-validation to compare predictive performance vs causal target (discussion).
+### Homework (team-based; structured and short)
+1. **Target trial block (mandatory):** eligibility, time zero, exposure window, outcome window, estimand.
+2. **Coding:** run the IPW pipeline; submit a single notebook and a 1–2 page memo.
+3. **Diagnostics panel (required figures):**
+   - `ps_overlap.png`, `weights_hist.png`, `love_plot.png` saved to `figures/L08/`
+4. **Interpretation:** 5–8 sentences: “Under assumptions … we estimate …”; mention one limitation.
 
-#### Instructor solution sketch (for generating the solution notebook/key)
-
-1. **Estimator vs model**
-   - Clarify: g-formula and IPW are estimators; regression/PS are models used to estimate nuisance components.
-2. **Bias–variance demonstration**
-   - Simulate nonlinear true outcome model.
-   - Fit:
-     - (i) misspecified linear/logistic model
-     - (ii) flexible model (splines or tree-based) as optional extension
-   - Compare out-of-sample error and causal estimand bias.
-3. **Key takeaways**
-   - More flexibility can reduce bias but may increase variance; diagnostics and sensitivity are required.
+#### Instructor solution sketch
+- Provide a baseline PS model (logit), show stabilized weights, truncation (1/99) as sensitivity, and balance thresholds (|SMD|<0.1 rule-of-thumb).
 
 ---
 
-## Lecture 9 — Standardization and the (parametric) g-formula
-### Assets to generate (slides + notebook + homework)
-- Slides: `slides/L09_gformula_standardization.md` (outline + speaker notes) → (optional) export to PPTX/Google Slides
-- Notebook (student): `notebooks/L09_gformula_standardization_student.ipynb`
+## Lecture 9 — Standardization + (parametric) g-formula (and “why model”) (MIMIC-IV Demo)
+### Assets to generate (slides + notebook + homework + poll)
+- Slides: `slides/L09_gformula_standardization.md`
+- Notebook (student): `notebooks/L09_gformula_standardization_student.ipynb` (**fill-in-the-blanks; pipeline provided**)
 - Notebook (solution, instructor): `instructor_solutions/L09_gformula_standardization_solution.ipynb`
 - Homework prompt: `assignments/HW09_gformula_standardization.md`
 - Homework solutions: `instructor_solutions/HW09_gformula_standardization_solution.md`
-- Optional concept check: `quizzes/Q09_gformula_standardization_concept_check.md`
-
-
-> **Mapping note:** In your provided slide deck, “Standardization” appears as **Lecture 10**. Keep the numbering consistent with your semester schedule if needed.
+- Exit poll: `polls/P09_exit_poll.md`
 
 ### Learning goals
-- Compute marginal causal effects via:
-  - nonparametric standardization (few covariates)
-  - parametric g-formula (many covariates)
-- Use bootstrap to build confidence intervals.
-- Understand what “model misspecification” means for causal estimands.
+- Derive and implement standardization:
+  - \(Pr(Y^a=1)=\sum_l Pr(Y=1|A=a,L=l)\,Pr(L=l)\) (discrete \(L\))  
+  - parametric g-formula for high-dimensional \(L\)
+- Connect **estimand → identification → estimator → computation** (this is the “why model” message).
+- Compare g-formula vs IPW and articulate tradeoffs (model dependence vs weight instability).
+- Bootstrap the full procedure for uncertainty.
 
 ### Required reading
-- Hernán & Robins, standardization/g-formula sections (and/or the aligned chapter you already use).
+- Hernán & Robins, g-formula/standardization sections (aligned chapter in *What If*).
 
-### In-class activity
-- Derive the g-formula for a point exposure using law of total probability.
+### In-class activity (8–10 min)
+- Whiteboard derivation of the g-formula for a point exposure using the law of total probability.
 
-### Colab notebook idea
-**Notebook 09:** “Standardization end-to-end”
-- Use NHEFS (smoking cessation) style dataset:
-  - outcome: weight gain (continuous) and death (binary)
-  - estimate ACE using:
-    - crude
-    - age-standardization (few strata)
-    - parametric g-formula with multiple covariates
-  - bootstrap CI
+### Colab notebook plan (MIMIC-IV Demo)
+**Notebook 09:** “G-formula end-to-end”
+- Data: `cohort_L09_gformula.parquet` (same substantive cohort as L08 if possible)
+- Provided:
+  - outcome-model skeleton (linear/logistic) + prediction under A=1 and A=0
+  - bootstrap wrapper
+- Student tasks:
+  1. Specify \(E[Y|A,L]\) model (formula; include nonlinear terms if justified).
+  2. Produce standardized estimates for \(E[Y^1]\) and \(E[Y^0]\) + effect measure (RD/RR/mean difference).
+  3. Run bootstrap (≥200 replicates; adjustable for time) and plot bootstrap distribution.
 
 ### Homework
-1. Derive the standardization formula for Pr(Y^a=1) under conditional exchangeability.
-2. Coding:
-   - Implement g-formula for both a continuous and binary outcome.
-   - Bootstrap 500 replicates for understood CI method.
-3. Diagnostics:
-   - Check positivity by plotting propensity score or treatment probability by covariates (simple bins).
-4. Interpretation:
-   - Write a short paragraph explaining the meaning of the standardized estimate.
+1. **Derivation:** write the standardization formula and state conditional exchangeability + positivity.
+2. **Coding:** g-formula estimate + bootstrap CI.
+3. **Comparison (short):** contrast with IPW results from L08 (one paragraph).
 
-#### Instructor solution sketch (for generating the solution notebook/key)
-
-1. **Parametric g-formula implementation**
-   - Fit outcome model: \(E[Y|A,L]\) (e.g., logistic for binary Y, linear for continuous).
-   - Predict counterfactual outcomes:
-     - set A=1 for all, predict \(\hat Y^{1}_i\); average → \(\widehat{E}[Y^{1}]\)
-     - set A=0 for all, predict \(\hat Y^{0}_i\); average → \(\widehat{E}[Y^{0}]\)
-2. **Effect measure**
-   - Compute RD/RR (or mean difference) from the two standardized predictions.
-3. **Uncertainty**
-   - Bootstrap the full procedure (including refitting models).
-4. **Compare to IPW**
-   - Implement IPW estimate on same dataset; discuss differences (model dependence vs weight instability).
+#### Instructor solution sketch
+- Show a “simple model” and “richer model” sensitivity; emphasize interpretation of estimand vs model coefficients.
 
 ---
 
-## Lecture 10 — Instrumental variables (IV): when exchangeability is not plausible
-
-### Why this lecture matters (one sentence)
-IV methods are the main “escape hatch” when **treatment–outcome exchangeability is not plausible** because of *unmeasured confounding*, but they trade that assumption for **instrumental conditions** that are also largely unverifiable.
-
-### Assets to generate (slides + notebook + homework)
-- Slides: `slides/L10_instrumental_variables.md` (outline + speaker notes) → (optional) export to PPTX/Google Slides
-- Notebook (student): `notebooks/L10_instrumental_variables_student.ipynb`
-- Notebook (solution, instructor): `instructor_solutions/L10_instrumental_variables_solution.ipynb`
-- Homework prompt: `assignments/HW10_instrumental_variables.md`
-- Homework solutions: `instructor_solutions/HW10_instrumental_variables_solution.md`
-- Optional concept check: `quizzes/Q10_instrumental_variables_concept_check.md`
+## Lecture 10 — Causal survival analysis: time-to-event outcomes, censoring, discrete-time hazards (MIMIC-IV Demo)
+### Assets to generate (slides + notebook + homework + poll)
+- Slides: `slides/L10_causal_survival.md`
+- Notebook (student): `notebooks/L10_causal_survival_student.ipynb` (**fill-in-the-blanks; pipeline provided**)
+- Notebook (solution, instructor): `instructor_solutions/L10_causal_survival_solution.ipynb`
+- Homework prompt: `assignments/HW10_causal_survival.md`
+- Homework solutions: `instructor_solutions/HW10_causal_survival_solution.md`
+- Exit poll: `polls/P10_exit_poll.md`
 
 ### Learning goals
-By the end, students should be able to:
-1. **Define an IV** and explain why it can identify a causal effect even with unmeasured exposure–outcome confounding.
-2. State and interpret the **three instrumental conditions** using a DAG:
-   - **Relevance:** Z affects A.
-   - **Exclusion restriction:** Z affects Y only through A (no direct Z→Y).
-   - **Independence:** Z and Y do not share common causes (or other sources of lack of exchangeability).
-3. Explain why conditions (2) and (3) are **not testable** from observed data, and how we can sometimes partially *falsify* them.
-4. Compute:
-   - **Wald estimator** (binary Z, binary A; or binary Z with continuous Y)
-   - **2SLS** (continuous outcomes; optionally A binary as a linear probability model “first stage”)
-5. Explain **LATE/CACE interpretation** under **monotonicity**, and why we cannot identify who the compliers are.
-6. Recognize **weak instruments** and explain why they amplify bias and increase variance.
-7. Explain why IV can still be biased by **selection/censoring**, and how **inverse probability of censoring weights (IPCW)** can be combined with IV.
-
-### Minimal required reading (choose one)
-- Hernán & Robins, *What If* — short recap of IV intuition (if you want to keep reading minimal).
-- A short epidemiology-friendly IV primer (you can provide as a 2–3 page handout).
-
-### Core lecture outline (teaching flow)
-1. **Motivation:** what breaks when conditional exchangeability fails
-   - Reminder: regression / g-formula / IPW all rely on “no unmeasured confounding”.
-2. **IV definition + DAG**
-   - Z influences A; A influences Y; U confounds A–Y; Z independent of U; no direct Z→Y.
-3. **IV in randomized trials with noncompliance**
-   - Randomization as an instrument; “always-takers / never-takers / compliers / defiers”.
-   - Monotonicity = no defiers; interpretation becomes LATE among compliers.
-4. **IV in observational studies**
-   - Examples of proposed instruments (keep practical and clinical):
-     - provider/physician preference (proxied by prior prescribing)
-     - access (distance, calendar period)
-     - price/cost (e.g., cigarette price in NHEFS-style examples)
-     - Mendelian randomization (conceptual only; do not expand into genetics methods)
-5. **Estimation**
-   - Wald estimator (binary Z): (E[Y|Z=1]−E[Y|Z=0]) / (E[A|Z=1]−E[A|Z=0])
-   - 2SLS for continuous Y:
-     - Stage 1: A ~ Z (+ baseline covariates)
-     - Stage 2: Y ~ Â (+ baseline covariates)
-   - Emphasize what the estimate means (ATE vs LATE).
-6. **Limitations + diagnostics**
-   - Why exclusion and independence are hard.
-   - **Weak instrument warning:** small first-stage effect → unstable estimate; bias amplification.
-   - “Falsification” mindset: tests can reject assumptions but cannot prove them.
-7. **IV + selection bias (advanced but high-yield)**
-   - If follow-up depends on A/L (or other variables), IV can induce Z–Y non-exchangeability.
-   - Combine IV with **IPCW** (typically nonstabilized for censoring adjustment when A→C exists).
-
-### Colab notebook plan (Python-first, but include R/SAS notes)
-**Notebook 10A (simulation): “IV rescues unmeasured confounding (sometimes)”**
-- Simulate U that confounds A→Y.
-- Create Z that affects A but not Y directly.
-- Compare:
-  - naive regression
-  - g-formula/IPW (still biased because U unmeasured)
-  - Wald + 2SLS (approximately recovers true effect when IV assumptions hold)
-- Add a “weak instrument” slider: shrink Z→A and show instability.
-
-**Notebook 10B (applied): “Adjusted 2SLS with baseline covariates”**
-- Use a public dataset (NHEFS-style or synthetic) so it runs instantly.
-- Show:
-  - first-stage regression + F-statistic
-  - second-stage estimate + robust SE
-  - sensitivity: instrument strength, alternate covariate sets
-
-**Implementation notes**
-- Python: `linearmodels` (IV2SLS) or `statsmodels.sandbox.regression.gmm.IV2SLS` if needed.
-- R (optional): `AER::ivreg()` demo only; SAS (optional): `PROC SYSLIN` (brief pointer).
-
-### Homework (team-based)
-1. **Conceptual (DAG + assumptions)**
-   - Draw a DAG for an IV setting and list which arrows/paths correspond to each instrumental condition.
-2. **Computation**
-   - Compute the Wald estimator by hand on a toy 2×2 table (Z binary, A binary, Y continuous or binary).
-3. **Coding (Python preferred; R/SAS allowed)**
-   - Run an adjusted 2SLS, report:
-     - first-stage estimate and a strength diagnostic (F-stat or partial R²)
-     - second-stage estimate + robust SE
-4. **Critical thinking**
-   - Give one plausible exclusion restriction violation in a clinical setting and explain how it would bias results.
-5. **Advanced (optional)**
-   - Demonstrate how censoring related to treatment could bias IV; apply IPCW and compare.
-
-#### Instructor solution sketch (for generating the solution notebook/key)
-- Provide (i) a clear assumptions checklist, (ii) worked Wald example, (iii) 2SLS code + outputs,
-  and (iv) one falsification-style check plus a weak-IV demonstration.
----
-
-## Lecture 11 — IP weighting for confounding (propensity scores) and diagnostics
-### Assets to generate (slides + notebook + homework)
-- Slides: `slides/L11_ipw_propensity.md` (outline + speaker notes) → (optional) export to PPTX/Google Slides
-- Notebook (student): `notebooks/L11_ipw_propensity_student.ipynb`
-- Notebook (solution, instructor): `instructor_solutions/L11_ipw_propensity_solution.ipynb`
-- Homework prompt: `assignments/HW11_ipw_propensity.md`
-- Homework solutions: `instructor_solutions/HW11_ipw_propensity_solution.md`
-- Optional concept check: `quizzes/Q11_ipw_propensity_concept_check.md`
-
-
-### Learning goals
-- Estimate causal effects by weighting individuals by inverse probability of treatment.
-- Understand stabilized vs non-stabilized weights and why stabilization helps.
-- Diagnose positivity and weight instability; basic remedies (truncation, alternative modeling).
-- Compare “modeling f[A|L]” (IPW) vs “modeling f[Y|A,L]” (g-formula).
+- Distinguish **risk** vs **hazard** vs **survival**; know what effect measure you are estimating.
+- Convert a cohort into **person-period** (discrete time) data and fit pooled logistic hazards.
+- Handle **right censoring** with **IPCW**; understand when censoring is “informative”.
+- Produce causal survival curves under a point treatment (and interpret assumptions).
 
 ### Required reading
-- Hernán & Robins, Chapter 12 (IPW/MSMs intro). https://miguelhernan.org/whatifbook
+- Hernán & Robins, sections on censoring and survival (target trial chapters/sections as applicable).
 
-### In-class activity
-- Compute weights by hand for a 2-strata example; interpret pseudo-population.
+### In-class activity (10 min)
+- “Time-zero & censoring audit” on a clinical vignette: identify immortal time and define censoring rules.
 
-### Colab notebook idea
-**Notebook 11:** “IPW pipeline”
-- Fit propensity model Pr(A=1|L).
-- Compute stabilized weights.
-- Check covariate balance pre/post weighting (SMD plots).
-- Estimate weighted mean difference / weighted risk ratio.
+### Colab notebook plan (MIMIC-IV Demo)
+**Notebook 10:** “Discrete-time survival with IPCW”
+- Data: `cohort_L10_survival.parquet` with:
+  - baseline covariates \(L\)
+  - point exposure \(A\) in first 6–24h
+  - follow-up time \(T\) and event indicator \(\Delta\)
+  - censoring indicator (if applicable; or administrative censoring)
+- Provided:
+  - function `make_person_period(df, t_max, id_col, t_col, event_col)`
+  - hazard model skeleton + prediction under A=1 and A=0
+  - plotting utilities for survival curves
+- Student tasks:
+  1. Specify hazard model (pooled logistic) and compute survival curves.
+  2. If informative censoring is included in the exercise: fit censoring model and compute IPCW; re-estimate curves.
 
 ### Homework
-1. Define stabilized weight and explain (in words) what it does.
-2. Coding:
-   - Estimate IPW for smoking cessation → weight gain.
-   - Compare to g-formula estimate from Lecture 9.
-3. Diagnostics:
-   - Show distribution of weights + report % truncated at 1st/99th percentile (if you choose truncation).
-4. Write-up:
-   - Discuss which method you trust more for this dataset and why.
+1. Define your target trial for a time-to-event outcome and specify censoring rules.
+2. Coding: produce unweighted and IPCW-weighted survival curves; interpret differences.
+3. Short answer: why “hazard ratio” is not automatically a causal effect measure without assumptions.
 
-#### Instructor solution sketch (for generating the solution notebook/key)
-
-1. **Propensity score model**
-   - Fit \(\hat e(L)=Pr(A=1|L)\) via logistic regression (baseline).
-2. **Weights**
-   - Unstabilized: \(w= A/\hat e(L) + (1-A)/(1-\hat e(L))\)
-   - Stabilized: \(sw= Pr(A)/\hat e(L)\) for treated and \(Pr(1-A)/(1-\hat e(L))\) for untreated.
-3. **Diagnostics**
-   - Positivity: PS overlap plot.
-   - Weight distribution: histogram; identify extreme weights; apply truncation (e.g., 1st/99th percentile).
-   - Balance: standardized mean differences before/after weighting.
-4. **Causal effect**
-   - Weighted outcome mean difference (or weighted regression).
-5. **Narrative**
-   - IPW targets marginal estimand; main failure modes are positivity and PS misspecification.
+#### Instructor solution sketch
+- Show (i) naive Kaplan–Meier by A (associational), (ii) standardized/weighted causal survival curves, (iii) sensitivity to censoring model and truncation.
 
 ---
 
-## Lecture 12 — Capstone: marginal structural models, target trial emulation, and time-to-event outcomes
-### Assets to generate (slides + notebook + homework)
-- Slides: `slides/L12_msm_time_varying.md` (outline + speaker notes) → (optional) export to PPTX/Google Slides
-- Notebook (student): `notebooks/L12_msm_time_varying_student.ipynb`
-- Notebook (solution, instructor): `instructor_solutions/L12_msm_time_varying_solution.ipynb`
-- Homework prompt: `assignments/HW12_msm_time_varying.md`
-- Homework solutions: `instructor_solutions/HW12_msm_time_varying_solution.md`
-- Optional concept check: `quizzes/Q12_msm_time_varying_concept_check.md`
-
+## Lecture 11 — Time-varying treatment and confounding: marginal structural models (MSMs) (MIMIC-IV Demo)
+### Assets to generate (slides + notebook + homework + poll)
+- Slides: `slides/L11_msm_time_varying.md`
+- Notebook (student): `notebooks/L11_msm_time_varying_student.ipynb` (**fill-in-the-blanks; pipeline provided**)
+- Notebook (solution, instructor): `instructor_solutions/L11_msm_time_varying_solution.ipynb`
+- Homework prompt: `assignments/HW11_msm_time_varying.md`
+- Homework solutions: `instructor_solutions/HW11_msm_time_varying_solution.md`
+- Exit poll: `polls/P11_exit_poll.md`
 
 ### Learning goals
-- Explain MSMs (structural + marginal): why they are useful for time-varying confounding under sustained strategies.
-- Fit a simple MSM and interpret causal parameters; combine treatment weights with censoring/selection weights.
-- Specify a target trial protocol (eligibility, strategies, time zero, follow-up, outcome, estimand, analysis plan).
-- Identify and explain immortal time bias and other time-alignment pitfalls; show how target trial thinking prevents them.
-- Define and estimate causal effects for time-to-event outcomes using a discrete-time hazard approach and/or risk by time t.
-
-### Additional capstone modules (integrate into this same 120-min session)
-
-**Module A — Target trial emulation (protocol + pitfalls)**
-- Translate an observational question into a **target trial** specification:
-  1. eligibility criteria
-  2. treatment strategies (A=1 vs A=0) with a clear time zero
-  3. hypothetical assignment mechanism (randomization conceptually)
-  4. follow-up period and censoring rules
-  5. outcome definition
-  6. causal contrast/estimand (ITT vs per-protocol; choose one and justify)
-  7. analysis plan aligned with assumptions
-- Diagnose and prevent common design/analysis errors:
-  - immortal time bias (misaligned time zero)
-  - selection/censoring tied to treatment initiation
-  - misclassification of baseline vs post-baseline covariates
-
-**Module B — Causal survival analysis (time-to-event outcomes)**
-- Define causal questions for time-to-event endpoints (time zero, follow-up, censoring).
-- Teach **one simple, robust approach**: discrete-time hazards (person-period data) and estimation of:
-  - risk by time t (e.g., 30-day risk), and/or
-  - survival curves under strategies via g-formula prediction and/or IPW.
-- (Optional) IPCW for informative censoring and comparison to naive analysis.
-
-**Instructor guidance (scope control)**
-- Keep methods minimal and aligned with prior lectures: g-formula + IPW/weights + clear identification assumptions.
-- Mention competing risks only briefly (definition + why it complicates interpretation), without adding additional estimators.
+- Recognize time-varying confounding affected by prior treatment.
+- Construct stabilized weights over time:
+  - treatment weights \(W_A\)
+  - censoring weights \(W_C\)
+  - combined weights \(W=W_A	imes W_C\)
+- Fit a simple MSM (weighted pooled logistic/GLM) and interpret the parameter as a **marginal causal effect** under assumptions.
 
 ### Required reading
-- Continue Hernán & Robins, Chapter 12 + MSM sections. https://miguelhernan.org/whatifbook
+- Hernán & Robins, MSM sections (typically Chapter 12 continuation / longitudinal chapters).
 
-### Colab notebook idea
-**Notebook 12:** “MSM + selection weights”
-- Use NHEFS style data with censoring indicator C (missing outcome).
-- Fit:
-  - MSM for mean difference
-  - MSM with baseline effect modifier (e.g., age)
-- Combine stabilized treatment and censoring weights.
+### In-class activity (10–12 min)
+- “Why standard adjustment fails”: walk through a time-varying DAG and identify the blocked/unblocked paths.
 
-### Homework (required; feeds the final project)
-**Team-based unless noted.** Submit: (i) a target-trial protocol (1–2 pages), (ii) a notebook for the survival lab, and (iii) a brief write-up.
+### Colab notebook plan (MIMIC-IV Demo)
+**Notebook 11:** “MSM pipeline (procedural, not black-box)”
+- Data: `cohort_L11_msm_longitudinal.parquet` (person-period; includes \(A_t, L_t, C_t, Y\))
+- Provided:
+  - weight construction scaffolding with explicit dataframe columns:
+    - `pA_denom`, `pA_num`, `wA`, `pC_denom`, `pC_num`, `wC`, `W = wA*wC`
+  - diagnostic plots: weights over time; truncation; balance over time (simple)
+- Student tasks:
+  1. Specify numerator/denominator models (formulas).
+  2. Compute stabilized weights and diagnose.
+  3. Fit weighted MSM and interpret.
 
-#### Part A — Target trial protocol (1–2 pages; “protocol v2”)
-- Use **your semester project question** (preferably MIMIC-IV). If MIMIC access is still pending, write the protocol using the provided demo/synthetic data and state how it will map to MIMIC variables later.
-- Use the template below (copy/paste headings; keep it concise):
-  1. **Title + causal question** (population, strategies, outcome, horizon)
-  2. **Eligibility criteria** (inclusion/exclusion)
-  3. **Treatment strategies** (define interventions; include a grace period if needed)
-  4. **Treatment assignment in the emulation** (how you will emulate randomization; confounders set)
-  5. **Time zero + follow-up** (avoid immortal time; define censoring)
-  6. **Outcome definition** (and competing risks if relevant)
-  7. **Estimand(s)** (e.g., risk difference at 28 days; target population)
-  8. **Causal model + assumptions** (DAG; where exchangeability/positivity/consistency might fail)
-  9. **Primary analysis plan** (estimator + diagnostics: overlap/weights/balance; model checks)
-  10. **Sensitivity/robustness** (≥2 items: alternative windows, trimming, negative control discussion, etc.)
+### Homework
+1. Draw a time-varying DAG for your cohort; explain why \(L_t\) is problematic.
+2. Coding: construct weights and fit an MSM; include weight diagnostics.
+3. Interpretation: 1 paragraph on assumptions + one key limitation.
 
-**Deliverable:** `assignments/HW12_target_trial_protocol.md` (or PDF export) + DAG figure.
-
-#### Part B — Discrete-time survival lab (coding + figures)
-Using `data/synthetic_time_to_event.csv` (provided), implement:
-1. **Reshape** to person–period (“long”) format on a discrete time grid.
-2. **Fit pooled logistic hazard models** (unadjusted and adjusted; optional weighted).
-3. **Estimate and plot**:
-   - Survival curves under two strategies (e.g., treat vs not treat) using standardization (or weighting).
-   - Risk by time *t* (choose *t* = end of follow-up) with uncertainty via bootstrap (team-level).
-4. **Selection/censoring**:
-   - Add censoring weights (or use provided censoring indicator) and compare results.
-
-**Deliverables:** `notebooks/L12_survival_student.ipynb` + `assignments/HW12_survival_writeup.md` (≤1 page; 2–3 plots + interpretation).
-
-#### Part C — MSM extension (optional but recommended)
-Repeat Part B with time-varying confounding using the lecture’s longitudinal synthetic dataset:
-- compute stabilized treatment (and censoring) weights
-- fit a simple MSM and compare against a naïve model
-
-#### Reflection (individual; 5–8 sentences)
-State the **single most plausible remaining bias** in your analysis and why (confounding, measurement, selection, time alignment, etc.).
-
-#### Instructor solution sketch (for generating the solution notebook/key)
-A. **Target trial protocol key**
-- Provide a “minimal acceptable” protocol example and a checklist keyed to the template headings.
-- Include common pitfalls: immortal time, post-baseline covariate adjustment, ill-defined strategies, and positivity failures.
-
-B. **Discrete-time survival solution**
-- Build person–period data; fit pooled logistic hazard; compute \\(\hat S(t)\\) under strategies via standardization.
-- Bootstrap at the individual level (cluster bootstrap) for risk by time *t*; plot survival/cumulative incidence curves.
-- Add censoring weights when censoring depends on past history.
-
-C. **MSM time-varying solution**
-- Simulate longitudinal data with \\(L_t\\) affected by past \\(A\\) and affecting future \\(A\\) and \\(Y\\).
-- Stabilized treatment weights:
-  \\[
-    sw_i = \prod_t \frac{Pr(A_t\mid \bar A_{t-1})}{Pr(A_t\mid \bar A_{t-1}, \bar L_t)}
-  \\]
-- Add censoring weights if dropout depends on past history; multiply weights.
-- Fit weighted pooled logistic (or weighted regression) for the outcome on treatment history; include effect modification if asked.
-- Diagnostics: weight mean near 1; check tails; truncation; positivity checks.
-
-
-## A. Project milestones (recommended)
-1. **Milestone 0 (Week 2–3):** MIMIC access started + short tutorial notebook run.
-2. **Proposal (Week 4):** 1–2 pages: target trial protocol (v1) + DAG + feasibility (tables/variables).
-3. **Analysis plan (Week 6):** estimand + identification + estimator + diagnostics plan.
-4. **Midterm check-in (Week 8):** preliminary cohort + baseline table + positivity/overlap check.
-5. **Capstone deliverable (Week 12):** updated target trial protocol (v2) + discrete-time survival analysis appendix (even if your primary outcome is not time-to-event).
-6. **Final report (end):** 6–10 pages + appendix; code + reproducible pipeline.
-
-## B. Project evaluation rubric (simple)
-- Target trial clarity (20%)
-- DAG and assumptions (20%)
-- Correct implementation of at least one estimator (25%)
-- Diagnostics (positivity, weights, balance, sensitivity discussion) (20%)
-- Reproducibility + writing quality (15%)
-
-## C. MIMIC-friendly project ideas (point-treatment versions)
-Pick questions that can be treated as **baseline/early exposure** to avoid time-varying complexity.
-
-1. **Early vasopressor use** (A: vasopressor within first X hours) → mortality or shock reversal
-2. **Early antibiotics** (A: antibiotics within first X hours) → mortality / ICU length of stay
-3. **High vs low tidal volume strategy** (A: average tidal volume category in first 24h) → mortality
-4. **Sedation strategy** (A: benzodiazepine vs propofol early) → delirium proxy / ventilation duration
-5. **Transfusion threshold** (A: transfusion within first 24h above/below Hb threshold) → outcomes
-
-For each topic:
-- define time zero (ICU admission or intubation)
-- define exposure window (first 6–24h)
-- define outcome window (in-hospital or 28-day)
-- define confounders measured before exposure window
-
-## D. Minimum methodological requirement
-Each team must implement at least **two** of:
-- g-formula/standardization (parametric)
-- IPW with MSM
-- (Optional) IV if a plausible instrument exists (rare in ICU; be cautious)
-
-## E. Required deliverables (GitHub structure)
-- `/project/proposal.md`
-- `/project/analysis_plan.md`
-- `/project/report.md` (or PDF)
-- `/project/notebooks/` (clean, runnable)
-- `/project/src/` (helper functions)
-- `/project/sql/` (cohort extraction queries)
-- `/project/results/` (tables/figures; no row-level data)
+#### Instructor solution sketch
+- Provide “minimal models” for numerator/denominator; show truncation and sensitivity.
 
 ---
+
+## Lecture 12 — Capstone: target trial emulation workshop + project presentations (MIMIC-IV Demo or full MIMIC-IV optional)
+### Assets to generate (slides + workshop materials + poll)
+- Slides: `slides/L12_target_trial_capstone.md`
+- Workshop notebook (student): `notebooks/L12_target_trial_workshop_student.ipynb` (mostly complete; checklists + placeholders)
+- Instructor reference: `instructor_solutions/L12_target_trial_workshop_solution.ipynb`
+- Project protocol template: `project/target_trial_protocol_template.md`
+- Exit poll: `polls/P12_exit_poll.md`
+
+### Learning goals
+- Convert an informal clinical question into a **complete target trial protocol**:
+  eligibility, time zero, treatment strategies, assignment, follow-up, outcomes, causal contrast, analysis plan.
+- Stress-test protocol choices for bias: time zero, censoring, competing risks (brief), positivity.
+- Produce a “protocol v2” that is executable as code + tables/figures.
+
+### In-class structure (highly structured, to avoid chaos)
+1. **20 min:** protocol checklist walkthrough + common failure modes (immortal time, conditioning on post-treatment).
+2. **40–50 min:** team work time (protocol v2 + analysis plan in the repo).
+3. **30–40 min:** rapid presentations (3–4 min/team): protocol + one diagnostic figure + next steps.
+4. **5 min:** exit poll + “muddiest point”.
+
+### Capstone deliverables (submitted by each team)
+- `project/protocol_v2.md` (target trial protocol)
+- `project/notebooks/analysis.ipynb` (runs end-to-end on Demo; full MIMIC optional)
+- `project/report.md` (≤6 pages; assumptions + results + limitations)
+- `project/results/` (tables/figures; aggregate only)
+
+### Optional mini-module (asynchronous): Instrumental variables (IV) — **not core**
+- Provide as a **short handout + optional notebook**:
+  - `optional/IV/slides_IV_short.md` (≈20 slides)
+  - `optional/IV/notebook_IV_simulation.ipynb` (strong vs weak IV demo)
+- Message to students: IV is powerful but rare in EHR settings; included for completeness, not required.
+
+
 
 # 6) High-yield “improvements” that add learning without adding confusion
 
 1. **One running example across lectures.**  
-   Keep the NHEFS smoking cessation example as the anchor for Lectures 8–12, so students can compare methods fairly.
+   Use **one MIMIC-IV Demo cohort** as the running anchor across the applied lectures (e.g., early antibiotics → 28-day mortality), so students can compare methods fairly.
 2. **Target trial in every assignment.**  
    Forces clear thinking and prevents “model-first” analysis.
 3. **Diagnostic culture.**  
@@ -1061,183 +854,126 @@ This section is designed so you can **paste** it directly into an AI tool and ge
 
 ## 9.1 Cursor instruction pack (generate the full teaching repository)
 
-### What Cursor should produce (definition of done)
-A GitHub repository that includes:
-1. **Runnable Colab notebooks** for every lecture (student version) + instructor solutions (kept private).
-2. A small **Python package** (`src/`) with reusable causal utilities (standardization, IPW, balance, bootstrapping, plotting).
-3. **Assignment prompts** + **solution keys** (conceptual + code pointers).
-4. A top-level `README.md` with:
-   - course overview
-   - how to run notebooks locally and in Colab
-   - an index table listing every notebook with an **Open-in-Colab link**.
-5. CI/linting so the repo stays clean (pre-commit + GitHub Actions).
-6. **No row-level MIMIC data** in the repo (only synthetic and/or NHEFS).
+### Definition of done (what Cursor must produce)
+A GitHub repository that includes, for **each lecture L01–L12**:
+1. A **student notebook** (Colab-ready) with a **nearly-complete pipeline** where students only fill a few marked cells (model specification, a derivation, an interpretation).
+2. A matching **instructor solution notebook** (kept private; generate it anyway).
+3. A short **assignment prompt** (team-based) + an **answer key** (kept private).
+4. A short **exit poll** (3–5 questions) + answer key.
+5. A dedicated `figures/` folder where the notebook saves all plots used in slides.
 
-### Repository blueprint (required structure)
+In addition:
+- A small, clean Python package under `src/` providing reusable utilities (IPW, g-formula, bootstrapping, balance diagnostics, survival helpers, plotting).
+- A top-level `README.md` that explains:
+  - environment setup (local + Colab)
+  - how to download the course extracts
+  - an index table with **Open-in-Colab links** for every student notebook
+  - where to find each lecture’s materials
+- Lightweight CI/linting (`ruff`, `black`, `pre-commit`, GitHub Actions) to keep the repo stable.
+
+### Pedagogical constraints (non-negotiable)
+- **Procedural and explicit > black box.** Avoid class-heavy designs.
+  - Good: explicitly create `weights` columns and show formulas in code comments.
+  - Bad: `estimator.fit(data)` hiding logic.
+- Student notebooks must run end-to-end **before** students edit anything.
+- Keep Python difficulty below the causal inference difficulty.
+  - Students should mostly change formulas, covariate sets, and interpret diagnostics—not debug syntax.
+
+### Data policy (non-negotiable)
+- **All graded work must run on MIMIC-IV Demo** + course-provided analysis-ready extracts (CSV/Parquet).
+- **Never** commit or upload row-level **full** MIMIC-IV data.
+- For **MIMIC-IV Demo extracts**:
+  - If extracts are small, they may live in the repo under `data/derived/` **or**
+  - Provide `data/download_data.py` to download them from a release/bucket into `data/raw/`.
+- Always include a variable dictionary and cohort definition for each extract.
+
+### Required repository structure (separate directory per lecture)
 Use this structure exactly (you can add more files, but keep these paths stable):
 
 ```
 phs564-causal-inference/
   README.md
+  DATA_SOURCES.md
   LICENSE
   CITATION.cff
   pyproject.toml
   requirements.txt
-  environment.yml              # optional
   .gitignore
   .pre-commit-config.yaml
   .github/workflows/ci.yml
 
-  notebooks/
-    L01_..._student.ipynb
-    ...
-    L12_..._student.ipynb
+  data/
+    README.md
+    download_data.py
+    raw/                       # empty by default
+    derived/                   # optional small extracts (Demo only)
+    dictionaries/              # variable dictionaries/codebooks
+      cohort_L08_ps_ipw.md
+      cohort_L10_survival.md
+      ...
 
-  instructor_solutions/        # keep private (private repo or private branch)
-    L01_..._solution.ipynb
-    ...
-    L12_..._solution.ipynb
-    HW01_..._solution.md
-    ...
-    HW12_..._solution.md
+  lectures/
+    L01_counterfactuals/
+      slides_outline.md
+      notebook_student.ipynb
+      poll_exit.md
+      assignment.md
+      figures/                 # notebooks save plots here
+      sql/                     # optional (Demo extraction for transparency)
+      solutions/               # keep private in real life (generate anyway)
+        notebook_solution.ipynb
+        assignment_solution.md
+        poll_exit_key.md
 
-  assignments/
-    HW01_...md
+    L02_rcts/
+      ...
     ...
-    HW12_...md
-
-  quizzes/                     # optional but recommended
-    Q01_...md
-    ...
-    Q12_...md
-
-  slides/                      # NotebookLM outputs can be stored here too
-    L01_...md
-    ...
-    L12_...md
+    L12_target_trial_capstone/
+      ...
 
   src/phs564_ci/
     __init__.py
-    datasets/
-      __init__.py
-      nhefs.py                 # loader + brief documentation
-      synthetic.py             # generators used across lectures
-    estimators/
-      __init__.py
-      standardization.py
-      ipw.py
-      iv.py                    # for Lecture 10 (simple 2SLS/Wald)
-      msm.py                   # for Lecture 12 (teaching-level)
-    diagnostics/
-      __init__.py
-      positivity.py
-      balance.py
-      weights.py
-    plotting/
-      __init__.py
-      causal_plots.py          # PS overlap, weights, standardized risk plots
-      dag_plots.py             # DAG drawing helper
-    utils/
-      __init__.py
-      bootstrap.py
-      metrics.py
-      typing.py
+    io.py                      # loading extracts + paths
+    plotting.py
+    diagnostics.py             # overlap, weights, balance
+    ipw.py
+    gformula.py
+    survival.py
+    msm.py
+    utils.py
 
-  sql/
-    mimic/
-      README.md                # “how to run SQL locally” + notes on not sharing data
-      cohort_template.sql
-      example_sepsis_cohort.sql
-      example_statins_cohort.sql
+  project/
+    target_trial_protocol_template.md
+    grading_rubric.md
+    submission_checklist.md
 
-  scripts/
-    make_colab_index.py        # auto-generates notebook index + Colab links
-    smoke_test_notebooks.py    # optional: run notebooks headless
+  optional/
+    IV/
+      slides_IV_short.md
+      notebook_IV_simulation.ipynb
 ```
 
-### Coding standards (must enforce)
-- Use **type hints**, docstrings, and clear variable names.
-- Prefer `numpy`, `pandas`, `statsmodels`, `scikit-learn`, `matplotlib`, `scipy`.
-- Keep causal estimators transparent (avoid “black box” ML unless explicitly requested).
-- Use deterministic seeds (`np.random.default_rng(2025)`).
-- Keep notebooks **teaching-first**:
-  - brief markdown explanation
-  - small functions imported from `src/`
-  - plots with labeled axes and captions
-  - 1–2 “stop and think” questions per notebook
+### Notebook build rules (make them Colab-friendly)
+- At the top of each student notebook:
+  - a single “Install dependencies” cell (fast; pinned minimal versions)
+  - a single “Download data” cell calling `python data/download_data.py --lecture LXX`
+  - `import` section with short comments
+- Use `pathlib` for paths; avoid OS-specific behavior.
+- All plots saved deterministically to `lectures/LXX_*/figures/`.
 
-### Colab requirements (critical)
-- Every notebook must run in Colab from a fresh runtime.
-- If extra packages are needed, install them in the first cell with:
-  - `pip install -q <package>`
-- Include an “Open in Colab” badge at the top of each notebook (in markdown).
+### Minimum required figures per applied lecture
+Each applied lecture notebook must output at least:
+- **L08 (IPW):** PS overlap + weight histogram + love plot
+- **L09 (g-formula):** standardized predictions under A=1/A=0 + bootstrap distribution
+- **L10 (survival):** survival curves (unweighted + weighted) + censoring/weight diagnostic
+- **L11 (MSM):** weight distribution over time + one marginal effect plot/table
 
-Badge template:
-```md
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](
-  https://colab.research.google.com/github/<ORG>/<REPO>/blob/main/notebooks/<NOTEBOOK_NAME>.ipynb
-)
-```
+### Team accountability hooks
+- Each assignment should instruct teams to include:
+  - link to the GitHub commits/PRs
+  - a short “contributions” section stating what each partner did
+- Provide a simple script `scripts/verify_contributions.py` that checks both partners committed.
 
-### Data governance requirements (MIMIC)
-- Do NOT write code that prints or exports patient-level rows as examples.
-- Any cohort extraction must be expressed as **SQL templates** + configuration instructions.
-- The repo may contain:
-  - SQL queries
-  - schemas/variable dictionaries
-  - aggregated results (tables/figures)
-  - synthetic demo datasets that mimic the MIMIC structure
-- The repo must NOT contain:
-  - row-level MIMIC extracts
-  - cached query outputs
-  - “sample patients” or screenshots of patient-level records
-
-### Student vs instructor materials (solution handling)
-- Generate **two versions** of each lecture notebook:
-  - `notebooks/*_student.ipynb`: contains TODO cells, questions, partial code.
-  - `instructor_solutions/*_solution.ipynb`: complete working notebook with answers.
-- Keep `instructor_solutions/` in a **private repo or private branch**.
-- In the public/student repo, include only the student notebooks and assignment prompts.
-
-### What Cursor should implement per lecture
-For each lecture, implement exactly what is described in this plan:
-- Use the “Colab notebook idea” section for each lecture as the notebook specification.
-- Use the “Homework” and “Instructor solution sketch” sections to generate:
-  - `assignments/HWXX_*.md`
-  - `instructor_solutions/HWXX_*_solution.md`
-- Ensure lecture notebooks share a common style and import shared utilities from `src/`.
-
-### Copy/paste prompt to give Cursor (recommended)
-Paste the block below into Cursor and attach this course plan markdown as the source of truth.
-
-```text
-You are an expert scientific Python engineer and causal inference TA.
-
-GOAL:
-Create a GitHub repository called "phs564-causal-inference" that implements the entire teaching repo described in the attached course plan markdown.
-
-HARD CONSTRAINTS:
-- Follow the repository structure exactly (paths and naming).
-- Create student notebooks in /notebooks and instructor solutions in /instructor_solutions.
-- Every notebook must run in Google Colab from a fresh runtime.
-- Do NOT include any row-level MIMIC data or outputs.
-- Code must be clean, minimal, and pedagogical: type hints, docstrings, tests where appropriate.
-
-TASKS (in order):
-1) Scaffold the repo with README, requirements, pyproject, pre-commit, CI.
-2) Implement the src/phs564_ci package (datasets, estimators, diagnostics, plotting, utils).
-3) Create all lecture notebooks (L01–L12) as student versions, matching the notebook ideas in the plan.
-4) Create the corresponding instructor solution notebooks (L01–L12) that fully solve each notebook.
-5) Create HW prompts (HW01–HW12) and solution keys using the plan's homework + instructor sketches.
-6) Create an auto-generated index of notebooks with Open-in-Colab links.
-7) Run a smoke test to ensure notebooks execute top-to-bottom (at least locally; Colab-compatibility is required).
-
-OUTPUT:
-- A complete file tree with all files created.
-- A short "how to use" section in README (local vs Colab).
-```
-
----
 
 ## 9.2 NotebookLM instruction pack (generate slide decks + speaker notes)
 
