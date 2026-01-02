@@ -24,8 +24,8 @@ Open notebooks with JupyterLab / VSCode.
 
 **Option 1: Open directly in Colab (recommended)**
 - Click the "Open In Colab" badge next to any lecture below
-- The notebook will open in Colab with the repo already cloned
-- Run the setup cells at the top to install dependencies
+- The notebook will open in Colab (from GitHub)
+- **Run the first “Colab bootstrap” cell** in the notebook (it clones the repo + installs requirements)
 
 **Option 2: Clone manually**
 1) Clone the repo inside Colab:
@@ -42,7 +42,8 @@ Open notebooks with JupyterLab / VSCode.
 
 Each lecture has:
 - `student/` — student notebook
-- `instructor/` — instructor solution notebook
+ 
+> Instructor solution notebooks are **not** published in this public repository.
 
 | Lecture | Topic | Student Notebook (Colab) |
 | :--- | :--- | :--- |
@@ -107,7 +108,16 @@ For teaching and homework equity, L08–L11 expect **instructor‑provided proce
 - `cohort_L11_msm_longitudinal.parquet` (or `.csv`)
 - (optional) `cohort_L12_capstone.parquet` (or `.csv`)
 
-If these are missing, the notebooks will raise a `FileNotFoundError` with instructions.
+If these are missing, download them from GitHub Releases:
+
+```bash
+python data/download_data.py --lecture L08
+python data/download_data.py --lecture L09
+python data/download_data.py --lecture L10
+python data/download_data.py --lecture L11
+```
+
+In Colab, the applied lecture notebooks include a “Download the processed cohort extract” cell you can run once.
 
 ---
 
