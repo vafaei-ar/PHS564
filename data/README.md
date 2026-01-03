@@ -1,13 +1,13 @@
 # Data directory (PHS564)
 
-This course uses **MIMIC-IV Demo** (public) plus **instructor-provided processed cohort extracts** for reproducibility and to avoid credentialing bottlenecks.
+This course uses **MIMIC-IV Demo** (public). Lectures L08–L11 use **processed cohort extracts** that are built from the raw Demo tables.
 
 ## Folder structure
 
 ```text
 data/
   raw/        # optional downloads (DO NOT COMMIT)
-  processed/  # instructor-provided cohort extracts (DO NOT COMMIT unless you explicitly allow)
+  processed/  # derived cohort extracts (DO NOT COMMIT)
 ```
 
 ## Raw MIMIC-IV Demo (optional)
@@ -36,3 +36,12 @@ Expected files:
 
 If these are missing, the notebooks will raise a `FileNotFoundError` with instructions.
 
+To build them from raw MIMIC-IV Demo:
+
+```bash
+# 1) Download raw Demo tables
+python data/download_data.py --method python --out data/raw --version 2.2
+
+# 2) Build teaching cohort extracts into data/processed/
+python data/build_processed_extracts_demo.py --exposure-mode admission_type
+```
