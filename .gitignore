@@ -11,6 +11,9 @@ venv/
 # Instructor-only materials (must NOT be pushed)
 /lectures/*/instructor/
 
+# Legacy instructor solutions (must NOT be pushed)
+/legacy_pre_course_repo_sync_2025_12_31/instructor_solutions/
+
 # Legacy/duplicate course tree (must NOT be pushed)
 /PHS564_course_repo/
 
