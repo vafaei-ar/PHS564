@@ -11,6 +11,9 @@ venv/
 # Instructor-only materials (must NOT be pushed)
 /lectures/*/instructor/
 
+# Legacy/duplicate course tree (must NOT be pushed)
+/PHS564_course_repo/
+
 # Course data policy
 /data/raw/*
 !/data/raw/.gitkeep

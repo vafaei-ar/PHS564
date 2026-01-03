@@ -27,11 +27,11 @@ Open notebooks with JupyterLab / VSCode.
 - The notebook will open in Colab (from GitHub)
 - **Run the first “Colab bootstrap” cell** in the notebook (it clones the repo + installs requirements)
 
-**Option 2: Clone manually**
+**Option 2: Clone manually (rarely needed)**
 1) Clone the repo inside Colab:
 ```bash
-!git clone <YOUR_GITHUB_REPO_URL>
-%cd <REPO_FOLDER_NAME>
+!git clone https://github.com/vafaei-ar/PHS564.git
+%cd PHS564
 !pip -q install -r requirements.txt
 ```
 2) Open a notebook under `lectures/Lxx_*/student/` and run top‑to‑bottom.
@@ -125,7 +125,7 @@ In Colab, the applied lecture notebooks include a “Build the processed cohort 
 ```
 data/
   raw/            # optional, do not commit
-  processed/      # instructor-provided cohort extracts (do not commit unless allowed)
+  processed/      # derived cohort extracts (do not commit)
 lectures/
   L01_.../
     student/

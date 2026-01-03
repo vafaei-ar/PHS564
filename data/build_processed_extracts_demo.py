@@ -14,7 +14,7 @@ Outputs (written under data/processed/ by default):
 - cohort_L11_msm_longitudinal.parquet
 
 Exposure mode:
-- exposure_mode="admission_type" (default): A = 1 if admission_type == "EMERGENCY"
+- exposure_mode="admission_type" (default): A = 1 if admission_type contains "EMER" (e.g., "EW EMER.", "DIRECT EMER.")
 - exposure_mode="vitals": A = 1 if mean heart rate in first 6h of ICU stay > hr_threshold
 """
 
