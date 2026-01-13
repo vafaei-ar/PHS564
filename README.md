@@ -1,6 +1,7 @@
 # PHS564 — Causal Inference (Course Repo)
 
-This repository contains **student** and **instructor** Jupyter notebooks for all 12 lectures.
+This repository contains **student** Jupyter notebooks for all 15 sessions.
+Instructor solution notebooks are kept in the corresponding `lectures/*/instructor/` folders locally but are **git-ignored** and therefore **not published** in the public repository.
 
 Design principle: **fill‑in‑the‑blank**.
 - Students edit *only* model specifications and a few short analysis lines.
@@ -43,8 +44,6 @@ Open notebooks with JupyterLab / VSCode.
 Each lecture has:
 - `student/` — student notebook
  
-> Instructor solution notebooks are **not** published in this public repository.
-
 | Lecture | Topic | Student Notebook (Colab) |
 | :--- | :--- | :--- |
 | L01 | Counterfactuals and causal effects | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L01_counterfactuals_definition/student/L01_counterfactuals_definition_student.ipynb) |
@@ -58,7 +57,10 @@ Each lecture has:
 | L09 | Standardization / g-formula (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L09_gformula_standardization/student/L09_gformula_standardization_student.ipynb) |
 | L10 | Causal survival analysis (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L10_causal_survival/student/L10_causal_survival_student.ipynb) |
 | L11 | MSMs for time‑varying confounding (MIMIC-IV Demo extract) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L11_msm_time_varying/student/L11_msm_time_varying_student.ipynb) |
-| L12 | Target trial emulation workshop (capstone) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L12_target_trial_workshop/student/L12_target_trial_workshop_student.ipynb) |
+| L12 | Target trial emulation I: protocol, time zero, and causal contrasts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L12_target_trial_protocol/student/L12_target_trial_protocol_student.ipynb) |
+| L13 | Target trial emulation II: hands-on workshop (analysis pipeline) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L13_target_trial_workshop/student/L13_target_trial_workshop_student.ipynb) |
+| L14 | Robustness and sensitivity: unmeasured confounding, negative controls | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L14_sensitivity_negative_controls/student/L14_sensitivity_negative_controls_student.ipynb) |
+| L15 | Capstone: project presentations + course synthesis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vafaei-ar/PHS564/blob/main/lectures/L15_capstone_presentations/student/L15_capstone_presentations_student.ipynb) |
 
 ---
 
@@ -99,7 +101,7 @@ python data/download_data.py
 
 **Do not commit any raw data** under `data/raw/` to GitHub.
 
-### Processed cohort extracts (required for L08–L11)
+### Processed cohort extracts (required for L08–L11, optional for L12–L13)
 Lectures L08–L11 expect **analysis-ready cohort extracts** under `data/processed/`:
 
 - `cohort_L08_ps_ipw.parquet` (or `.csv`)

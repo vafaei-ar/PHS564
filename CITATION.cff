@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Course Instructors"
+    given-names: "PHS564"
+title: "PHS564 - Causal Inference Methods in Epidemiologic Research"
+version: "1.0.0"
+date-released: "2026-01-01"
+url: "https://github.com/vafaei-ar/PHS564"
+repository-code: "https://github.com/vafaei-ar/PHS564"
+license: "MIT"
+keywords:
+  - "causal inference"
+  - "epidemiology"
+  - "observational studies"
+  - "target trial emulation"
+  - "MIMIC-IV"
