@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from typing import Optional, Tuple
 from sklearn.linear_model import LogisticRegression
-import statsmodels.api as sm
 
 
 def compute_ipw_weights(

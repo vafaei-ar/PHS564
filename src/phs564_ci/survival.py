@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
-from typing import List, Optional, Tuple
+from typing import List, Optional
 import statsmodels.api as sm
 from statsmodels.genmod.generalized_linear_model import GLM
 from statsmodels.genmod import families
@@ -39,7 +39,6 @@ def make_person_period(
     periods = []
 
     for _, row in df.iterrows():
-        person_id = row[id_col]
         follow_time = int(row[time_col])
         event = row[event_col]
 

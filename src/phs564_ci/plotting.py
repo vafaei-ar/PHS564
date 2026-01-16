@@ -4,8 +4,7 @@ Plotting utilities for causal inference diagnostics and results.
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from typing import Optional, List, Tuple
+from typing import Optional
 
 
 def plot_ps_overlap(

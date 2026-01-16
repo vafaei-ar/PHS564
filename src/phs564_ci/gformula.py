@@ -4,7 +4,7 @@ G-formula / Standardization utilities.
 
 import numpy as np
 import pandas as pd
-from typing import List, Optional
+from typing import List
 import statsmodels.api as sm
 from statsmodels.genmod.generalized_linear_model import GLM
 from statsmodels.genmod import families

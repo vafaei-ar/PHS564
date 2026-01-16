@@ -3,9 +3,7 @@ General utility functions.
 """
 
 import numpy as np
-import pandas as pd
 from typing import Optional, Callable
-from scipy import stats
 
 
 def bootstrap_ci(
