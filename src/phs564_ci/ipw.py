@@ -14,11 +14,11 @@ def compute_ipw_weights(
     treatment: str,
     covariates: list,
     stabilized: bool = True,
-    ps_model: Optional[object] = None
+    ps_model: Optional[object] = None,
 ) -> Tuple[np.ndarray, np.ndarray, object]:
     """
     Compute IPW weights from propensity scores.
-    
+
     Parameters
     ----------
     df : pd.DataFrame
@@ -31,7 +31,7 @@ def compute_ipw_weights(
         If True, compute stabilized weights.
     ps_model : object, optional
         Fitted propensity score model. If None, fits a logistic regression.
-    
+
     Returns
     -------
     tuple
@@ -39,15 +39,15 @@ def compute_ipw_weights(
     """
     A = df[treatment].values
     X = df[covariates].values
-    
+
     # Fit propensity score model if not provided
     if ps_model is None:
         ps_model = LogisticRegression(max_iter=1000, random_state=564)
         ps_model.fit(X, A)
-    
+
     # Predict propensity scores
     ps = ps_model.predict_proba(X)[:, 1]
-    
+
     # Compute weights
     if stabilized:
         # Stabilized weights: f(A) / f(A|L)
@@ -57,18 +57,14 @@ def compute_ipw_weights(
     else:
         # Unstabilized weights: 1 / f(A|L)
         weights = np.where(A == 1, 1 / ps, 1 / (1 - ps))
-    
+
     return weights, ps, ps_model
 
 
-def truncate_weights(
-    weights: np.ndarray,
-    lower: float = 0.01,
-    upper: float = 0.99
-) -> np.ndarray:
+def truncate_weights(weights: np.ndarray, lower: float = 0.01, upper: float = 0.99) -> np.ndarray:
     """
     Truncate weights at specified percentiles.
-    
+
     Parameters
     ----------
     weights : array-like
@@ -77,7 +73,7 @@ def truncate_weights(
         Lower percentile for truncation.
     upper : float, default 0.99
         Upper percentile for truncation.
-    
+
     Returns
     -------
     np.ndarray
@@ -89,14 +85,11 @@ def truncate_weights(
 
 
 def weighted_mean_difference(
-    df: pd.DataFrame,
-    treatment: str,
-    outcome: str,
-    weights: np.ndarray
+    df: pd.DataFrame, treatment: str, outcome: str, weights: np.ndarray
 ) -> Tuple[float, float]:
     """
     Compute weighted mean difference (causal effect estimate).
-    
+
     Parameters
     ----------
     df : pd.DataFrame
@@ -107,7 +100,7 @@ def weighted_mean_difference(
         Outcome column name.
     weights : array-like
         IP weights.
-    
+
     Returns
     -------
     tuple
@@ -125,16 +118,16 @@ def weighted_mean_difference(
     control = df[df[treatment] == 0]
     weights_t = weights[df[treatment] == 1]
     weights_c = weights[df[treatment] == 0]
-    
+
     mean_t = np.average(treated[outcome].values, weights=weights_t)
     mean_c = np.average(control[outcome].values, weights=weights_c)
-    
+
     effect = mean_t - mean_c
-    
+
     # Naïve SE (does not account for weighting or PS estimation)
     se = np.sqrt(
-        np.var(treated[outcome].values) / len(treated) +
-        np.var(control[outcome].values) / len(control)
+        np.var(treated[outcome].values) / len(treated)
+        + np.var(control[outcome].values) / len(control)
     )
-    
+
     return effect, se

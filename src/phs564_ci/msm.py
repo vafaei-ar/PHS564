@@ -32,11 +32,11 @@ def compute_msm_weights(
     treatment: str,
     covariates_time_varying: List[str],
     covariates_baseline: List[str],
-    censoring: Optional[str] = None
+    censoring: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, dict]:
     """
     Compute stabilized weights for MSM (treatment weights and optionally censoring weights).
-    
+
     Parameters
     ----------
     df_long : pd.DataFrame
@@ -53,7 +53,7 @@ def compute_msm_weights(
         Baseline covariate column names.
     censoring : str, optional
         Censoring indicator column name (1 = censored). If None, no censoring weights.
-    
+
     Returns
     -------
     tuple
@@ -115,15 +115,11 @@ def compute_msm_weights(
 
 
 def fit_msm(
-    df_long: pd.DataFrame,
-    outcome: str,
-    treatment: str,
-    weights: np.ndarray,
-    time_col: str = "t"
+    df_long: pd.DataFrame, outcome: str, treatment: str, weights: np.ndarray, time_col: str = "t"
 ) -> object:
     """
     Fit a marginal structural model (weighted pooled logistic/GLM).
-    
+
     Parameters
     ----------
     df_long : pd.DataFrame
@@ -136,7 +132,7 @@ def fit_msm(
         MSM weights.
     time_col : str, default "t"
         Time period column name.
-    
+
     Returns
     -------
     object
@@ -145,9 +141,9 @@ def fit_msm(
     y = df_long[outcome].values
     X = df_long[[treatment, time_col]].values
     X = sm.add_constant(X)
-    
+
     # Weighted GLM
     model = GLM(y, X, family=families.Binomial(), freq_weights=weights)
     fitted = model.fit()
-    
+
     return fitted
